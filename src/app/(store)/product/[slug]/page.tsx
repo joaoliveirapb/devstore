@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
+import { AddToCartButton } from '@/components/add-to-cart-button'
 import { getFeaturedProducts, getProduct } from '@/services/products'
 import { formatCurrency } from '@/utils/format-currency'
 
@@ -94,12 +95,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           </div>
         </div>
 
-        <button
-          type="button"
-          className="mt-8 flex h-12 cursor-pointer items-center justify-center rounded-full bg-emerald-600 font-semibold text-emerald-50 transition-colors hover:bg-emerald-500"
-        >
-          Adicionar ao carrinho
-        </button>
+        <AddToCartButton productId={product.id} />
       </div>
     </div>
   )
