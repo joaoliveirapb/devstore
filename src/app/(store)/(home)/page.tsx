@@ -1,7 +1,12 @@
+import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import { getFeaturedProducts } from '@/services/products'
 import { formatCurrency } from '@/utils/format-currency'
+
+export const metadata: Metadata = {
+  title: 'Home',
+}
 
 export default async function Home() {
   const [highlightedProduct, ...otherProducts] = await getFeaturedProducts()
