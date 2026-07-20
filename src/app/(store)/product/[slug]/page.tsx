@@ -1,11 +1,34 @@
+import type { Metadata } from 'next'
 import Image from 'next/image'
+import { getProduct } from '@/services/products'
+import { formatCurrency } from '@/utils/format-currency'
 
-export default function ProductPage() {
+interface ProductPageProps {
+  params: Promise<{
+    slug: string
+  }>
+}
+
+export async function generateMetadata({
+  params,
+}: ProductPageProps): Promise<Metadata> {
+  const { slug } = await params
+  const product = await getProduct(slug)
+
+  return {
+    title: product.title,
+  }
+}
+
+export default async function ProductPage({ params }: ProductPageProps) {
+  const { slug } = await params
+  const product = await getProduct(slug)
+
   return (
     <div className="relative grid max-h-215 grid-cols-3">
       <div className="col-span-2 overflow-hidden">
         <Image
-          src="/moletom-never-stop-learning.png"
+          src={product.image}
           alt=""
           width={1000}
           height={1000}
@@ -14,21 +37,23 @@ export default function ProductPage() {
       </div>
 
       <div className="col-span-1 flex flex-col justify-center px-12">
-        <h1 className="font-bold text-3xl leading-tight">
-          Moletom Never Stop Learning
-        </h1>
+        <h1 className="font-bold text-3xl leading-tight">{product.title}</h1>
 
         <p className="mt-2 text-zinc-400 leading-relaxed">
-          Moletom fabricado com 88% de algodão e 12% de poliéster.
+          {product.description}
         </p>
 
         <div className="mt-8 flex items-center gap-3">
           <span className="inline-block rounded-full bg-violet-500 px-5 py-2.5 font-semibold">
-            R$ 129
+            {formatCurrency(product.price)}
           </span>
 
           <span className="text-sm text-zinc-400">
-            Em 12x s/ juros de R$ 10,75
+            Em 12x s/ juros de{' '}
+            {formatCurrency(product.price / 12, {
+              minimumFractionDigits: undefined,
+              maximumFractionDigits: undefined,
+            })}
           </span>
         </div>
 
