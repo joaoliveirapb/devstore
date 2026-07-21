@@ -22,3 +22,14 @@ export async function getFeaturedProducts(): Promise<IProduct[]> {
 
   return products
 }
+
+export async function getSearchProducts(query: string): Promise<IProduct[]> {
+  const response = await api(`/products/search?q=${query}`, {
+    next: {
+      revalidate: 60 * 60, // 1 hour
+    },
+  })
+  const products: IProduct[] = await response.json()
+
+  return products
+}
