@@ -1,12 +1,13 @@
+import { Suspense } from 'react'
 import { Skeleton } from '@/components/skeleton'
+import { CurrentSearch } from './_components/current-search'
 
 export default function SearchLoading() {
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex items-center gap-1">
-        <p className="text-sm">Resultados para:</p>
-        <Skeleton className="h-4 w-16" />
-      </div>
+      <Suspense fallback={null}>
+        <CurrentSearch />
+      </Suspense>
 
       <div className="grid grid-cols-3 gap-6">
         <Skeleton className="h-95" />
