@@ -1,10 +1,17 @@
+import { createEnv } from '@t3-oss/env-nextjs'
 import { z } from 'zod'
 
-const envSchema = z.object({
-  NEXT_PUBLIC_API_BASE_URL: z.url({
-    error: 'NEXT_PUBLIC_API_BASE_URL must be a valid url',
-  }),
-  APP_URL: z.url({ error: 'APP_URL must be a valid url' }),
-})
+export const env = createEnv({
+  server: {
+    APP_URL: z.url({ error: 'APP_URL must be a valid url' }),
+  },
+  client: {
+    NEXT_PUBLIC_API_BASE_URL: z.url({
+      error: 'NEXT_PUBLIC_API_BASE_URL must be a valid url',
+    }),
+  },
 
-export const env = envSchema.parse(process.env)
+  experimental__runtimeEnv: {
+    NEXT_PUBLIC_API_BASE_URL: process.env.NEXT_PUBLIC_API_BASE_URL,
+  },
+})
